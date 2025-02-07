@@ -172,7 +172,7 @@ class grubinstaller202(grubinstaller_base):
                 imagemntfs.write_file('boot/grub/device.map', 0o644, f'(hd0) {loopdev}\n')
                 stack.callback(imagemntfs.remove, 'boot/grub/device.map')
 
-                chroot(imagemnt, ['update-grub2'])
+                chroot(imagemnt, ['update-grub2'], env_add={'GRUB_DISABLE_LINUX_PARTUUID': 'false'})
 
                 if 'efi' in self.fw_type:
                     grub_tgt = next(t for t in self.fw_type if t.endswith('-efi'))
