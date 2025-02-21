@@ -12,8 +12,8 @@ start:
 		--name elbe-devel \
 		--detach \
 		--rm \
-		--volume $(shell git rev-parse --show-toplevel):/usr/src \
-		--workdir /usr/src \
+		--volume $(shell git rev-parse --show-toplevel):/src \
+		--workdir /src \
 		--privileged \
 		elbe-devel
 
