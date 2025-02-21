@@ -88,7 +88,7 @@ lffHf8U7HFvRg+zm
 		<pkg-list>
 			<pkg>openssh-server</pkg>
 			<pkg>ubuntu-keyring</pkg>
-			<pkg>debootstrap</pkg>
+			<pkg pin="bookworm-backports">debootstrap</pkg>
 			<pkg>reprepro</pkg>
 		</pkg-list>
 		<preseed>
