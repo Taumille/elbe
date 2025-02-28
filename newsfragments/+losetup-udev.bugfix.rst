@@ -1,1 +1,1 @@
-Avoid races between losetup and udev.
+Fix synchronization between losetup and udev (2nd try).
