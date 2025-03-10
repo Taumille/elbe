@@ -6,6 +6,7 @@ import os
 import subprocess
 
 from elbepack.shellhelper import do
+from elbepack.imgutils import losetup, mount
 
 
 class Packer:
@@ -35,6 +36,37 @@ class InPlacePacker(Packer):
             # in case of an error, we just return None
             # which means, that the orig file does not
             # exist anymore
+            return None
+
+        return fname + self.suffix
+
+
+class SquashArchiver(Packer):
+
+    def __init__(self, flag, suffix):
+        self.flag = flag
+        self.suffix = suffix
+
+    def pack_file(self, builddir, fname):
+        try:
+            fpath = os.path.join(builddir, fname)
+            dirname = os.path.dirname(fpath)
+            archname = fpath + self.suffix
+            with losetup(fpath) as loop_device:
+                mount_path = dirname+'/tmp'
+                os.mkdir(mount_path)
+                with mount(loop_device, mount_path):
+                    do(['mksquashfs', mount_path, archname])
+                os.rmdir(mount_path)
+            do(['rm', '-f', fpath])
+        except subprocess.CalledProcessError:
+            # in case of an error, we just return None
+            # which means, that the orig file does not
+            # exist anymore.
+            #
+            # Even if it actually exists, it might be
+            # much to big to download it and remove
+            # the sparsity.
             return None
 
         return fname + self.suffix
@@ -87,6 +119,7 @@ class AndroidSparsePacker(Packer):
 packers = {'none': NoPacker(),
            'gzip': InPlacePacker(['gzip', '-f'], '.gz'),
            'zstd': InPlacePacker(['zstd', '-T0'], '.zst'),
+           'squashfs': SquashArchiver('', '.sqsh'),
            'tar':  TarArchiver('--auto-compress', '.tar'),
            'tarxz': TarArchiver('--use-compress-program=xz -T0 -M40%', '.tar.xz'),
            'targz': TarArchiver('--auto-compress', '.tar.gz'),

@@ -2604,7 +2604,7 @@ SPDX-FileCopyrightText: Linutronix GmbH
          <annotation>
           <documentation>
           Describes the compressor for the resulting image from the
-          following values:(none, gzip, zstd, tar, targz, tarxz, tarzstd, android-sparse).
+          following values:(none, gzip, zstd, squashfs, tar, targz, tarxz, tarzstd, android-sparse).
           </documentation>
          </annotation>
         </attribute>
@@ -2617,6 +2617,7 @@ SPDX-FileCopyrightText: Linutronix GmbH
       <enumeration value="none" />
       <enumeration value="gzip" />
       <enumeration value="zstd" />
+      <enumeration value="squashfs" />
       <enumeration value="tar" />
       <enumeration value="tarxz" />
       <enumeration value="targz" />
