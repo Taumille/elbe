@@ -89,6 +89,7 @@ lffHf8U7HFvRg+zm
 			<pkg>openssh-server</pkg>
 			<pkg>ubuntu-keyring</pkg>
 			<pkg>debootstrap</pkg>
+			<pkg>rauc</pkg>
 			<pkg>reprepro</pkg>
 		</pkg-list>
 		<preseed>

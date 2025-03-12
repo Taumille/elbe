@@ -500,6 +500,25 @@ class ImgConvertAction(FinetuningAction):
             del target.image_packers[src]
 
 
+@_register_action('set_certificate')
+class SetCertificateAction(FinetuningAction):
+
+    def execute(self, _buildenv, _target):
+        raise NotImplementedError('<set_certificate> may only be '
+                                  'used in <project-finetuning>')
+
+    def execute_prj(self, _buildenv, target, _builddir):
+        type_cert = self.node.et.attrib['type']
+        if type_cert not in ['certificate', 'key']:
+            raise NotImplementedError(
+                f"{type_cert} is not one of ['certificate', 'key']")
+
+        cert = self.node.et.text
+        suffix = ".cert.pem" if type_cert == 'certificate' else ".key.pem"
+        with open(_builddir+"/signature"+suffix, "w") as f:
+            f.write(cert)
+
+
 @_register_action('set_packer')
 class SetPackerAction(FinetuningAction):
 
